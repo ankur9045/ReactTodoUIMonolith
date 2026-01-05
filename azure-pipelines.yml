@@ -1,5 +1,5 @@
 trigger: none 
-pool: Default
+pool: agentpool
 
 steps: 
 - task: NodeTool@0

@@ -1,16 +1,17 @@
-trigger: none 
-pool: agentpool
+trigger: none
+pool: vmss_agent
 
-steps: 
-- task: NodeTool@0
-  inputs:
-    versionSource: 'spec'
-    versionSpec: '16.x'
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: 'npm install'
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: 'npm run build'
+- stage: lintingstage
+  displayName: codequalitychecks
+  jobs: 
+  - job: biomelint
+    displayName: biomelint
+    steps:
+    - task: PowerShell@2
+      displayName: javascipt linter
+      continueOnError: true
+      inputs:
+        targetType: 'inline'
+        script: |
+          Invoke-WebRequest -Uri "https://github.com/biomejs/biome/releases/download/%40biomejs%2Fbiome%402.3.8/biome-win32-x64.exe" -OutFile "$(Agent.ToolsDirectory)/biome.exe"
+          $(Agent.ToolsDirectory)/biome.exe lint $(System.DefaultWorkingDirectory)/src

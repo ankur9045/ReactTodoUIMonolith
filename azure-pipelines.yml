@@ -1,5 +1,5 @@
 trigger: none
-pool: vmss_agent
+pool: appliction_pipeline
 stages:
   - stage: lintingstage
     displayName: codequalitychecks
